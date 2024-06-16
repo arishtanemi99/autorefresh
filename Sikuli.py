@@ -26,8 +26,8 @@ def click_refresh():
 
 # Function to check if image B is present
 def is_image_no_tasks_message_present():
-    image_B = "1718456069990.png";  # Replace with your actual path
-    region_B = Region(0,83,751,388) # Define the region for image_B (x, y, width, height)
+    image_B = "1718517871094.png";  # Replace with your actual path
+    region_B = Region(10,180,668,232) # Define the region for image_B (x, y, width, height)
 
     return region_B.exists(image_B)
 
@@ -48,8 +48,9 @@ def show_popup():
 def play_system_sound():
     try:
         # Use Sikuli's built-in App class to open the file with the default application
-        file_path = "I:\Installations\Sikuli.sikuli\iphone_remix.mp3";
-        app = App.open(file_path)
+        file_path = r"E:\autorefresh\iphone_remix.mp3";
+        App.open(file_path);
+
         wait(2)  # Wait for 2 seconds to ensure the application opens
     except Exception as e:
         print("Failed to open file:", e)
