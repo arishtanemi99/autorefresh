@@ -19,10 +19,13 @@ import os
 # Import necessary Java classes
 from java.io import IOException
 
+from datetime import datetime;
+
 
 # Function to click on image A
 def click_refresh():
     type(Key.F5);
+    print('Time: ', datetime.now().strftime("%d-%m-%Y %H:%M"));
 
 # Function to check if image B is present
 def is_image_no_tasks_message_present():
@@ -32,23 +35,14 @@ def is_image_no_tasks_message_present():
     return region_B.exists(image_B)
 
 # Function to show popup with continue and stop buttons
-def show_popup():
-    while True:
-        choice = input("Do you want to continue execution? Type 'c' to continue or 's' to stop: ")
-        if choice.lower() == 'c':
-            return "Continue"
-        elif choice.lower() == 's':
-            return "Stop"
-        else:
-            print("Invalid choice. Please enter 'c' to continue or 's' to stop.")
-
-    return result
+def show_continue_popup():
+    return popAsk("Do you want to continue execution?");
 
 
 def play_system_sound():
     try:
         # Use Sikuli's built-in App class to open the file with the default application
-        file_path = "I:\Installations\Sikuli.sikuli\iphone_remix.mp3";
+        file_path = r"I:\Installations\Sikuli\autorefresh\iphone_remix.mp3";
         app = App.open(file_path)
         wait(2)  # Wait for 2 seconds to ensure the application opens
     except Exception as e:
@@ -67,18 +61,19 @@ def kill_process_java(process_name):
    except IOException as e:
            print("Error killing {process_name}: {e}")
 
+def wait_for_first_time():
+    if(globalCount == 0):
+        wait(30);
 
+globalCount = 0;
 # Main script
 while True:
-    wait(15);
+    wait_for_first_time();
     if is_image_no_tasks_message_present():
         wait(random.randint(10, 20))  # Wait for random time between 10 to 20 seconds
         click_refresh();
     else:
         play_system_sound();
-        result = show_popup();
-        if result == "Stop":
-            # kill_process_java("Microsoft.Media.Player.exe");
+        result = show_continue_popup();
+        if not result:
             break  # Exit the loop if user chooses to stop execution
-        wait(random.randint(10, 20))  # Wait for random time between 10 to 20 seconds
-        
